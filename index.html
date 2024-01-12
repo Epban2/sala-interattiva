@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aula La Rocca</title>
+    <style>
+        img {
+            width: 70px;
+            height: 50px;
+            cursor: pointer; /*mostra che l'immagine si può premere quando sovrapposto il puntatore*/
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 style="font-size: 40px;">Aula interattiva</h1>
+    <p style="font-size: 25px;">Fare click su una postazione per occupare il posto; di nuovo per annullare</p>
+
+    <div id="div" style="display: block;">
+        <label for="altezza">Altezza griglia</label>
+        <input type="number" min="1" id="altezza" placeholder="numero">
+        <br><label for="larghezza">Larghezza griglia</label>
+        <input type="number" min="1" id="larghezza" placeholder="numero">
+        <button onclick="creaMatrix()">Genera poltrone</button>
+
+    </div>
+
+    <button id="reset" onclick="resetMatrix()" style="display: none;">Reset</button>
+    <div id="posti"></div>
+
+    <script>
+        function creaMatrix() {
+            let tabella = document.getElementById('posti');  //const non permette la modifica del valore
+            let altezza = document.getElementById("altezza").value;
+            let larghezza = document.getElementById("larghezza").value;
+
+            if (larghezza > 0 && altezza > 0 && altezza != "" && larghezza != "") {
+                let primoBottone = document.getElementById("div").style.display = "none"; //nascondo il bottone
+
+                for (let i = 0; i < altezza; i++) { //righe orizzontali
+                    for (let j = 0; j < larghezza; j++) { //colonne verticali
+                        let img = document.createElement("img");
+                        img.src = "computer-off.png";
+                        img.onclick = function () { //onclick svolgi funzione
+                            if (img.src.includes("computer-off.png")) { //controlla se nera o rossa (true/false)
+                                img.src = "computer-on.png";
+                            } else {
+                                img.src = "computer-off.png";
+                            }
+                        }
+                        tabella.appendChild(img);
+                    }
+                    tabella.appendChild(document.createElement("br")); //a capo
+                }
+                let bottone = document.getElementById("reset").style.display = "block"; //mostro il bottone per resettare le dimensioni
+            } else alert("Valori non validi!");
+        }
+
+        function resetMatrix() { //resetta tutti i campi
+            document.getElementById("posti").innerHTML = "";
+            document.getElementById("div").style.display = "block"; //ricompare il bottone per inserimento valori
+            document.getElementById("altezza").value = "";
+            document.getElementById("larghezza").value = "";
+            let bottone = document.getElementById("reset").style.display = "none"; //nascondo
+        }    
+    </script>
+</body>
+
+</html>
